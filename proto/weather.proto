@@ -1,0 +1,23 @@
+syntax = "proto3";
+package weather.v1;
+
+service WeatherService {
+  // return current weather for a city
+  rpc GetCurrentWeather (GetCurrentWeatherRequest) returns (GetCurrentWeatherResponse) {}
+}
+
+message GetCurrentWeatherRequest {
+  string city = 1;
+}
+
+message WeatherSnapshot {
+  string city = 1;
+  double temperature_c = 2;
+  string description = 3;
+  int32 humidity = 4;
+  double wind_speed = 5;
+}
+
+message GetCurrentWeatherResponse {
+  WeatherSnapshot snapshot = 1;
+}
