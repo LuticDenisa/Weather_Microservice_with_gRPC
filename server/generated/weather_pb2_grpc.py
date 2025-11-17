@@ -39,6 +39,11 @@ class WeatherServiceStub(object):
                 request_serializer=weather__pb2.GetCurrentWeatherRequest.SerializeToString,
                 response_deserializer=weather__pb2.GetCurrentWeatherResponse.FromString,
                 _registered_method=True)
+        self.GetWeatherHistory = channel.unary_unary(
+                '/weather.v1.WeatherService/GetWeatherHistory',
+                request_serializer=weather__pb2.GetWeatherHistoryRequest.SerializeToString,
+                response_deserializer=weather__pb2.GetWeatherHistoryResponse.FromString,
+                _registered_method=True)
 
 
 class WeatherServiceServicer(object):
@@ -51,6 +56,12 @@ class WeatherServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetWeatherHistory(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_WeatherServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -58,6 +69,11 @@ def add_WeatherServiceServicer_to_server(servicer, server):
                     servicer.GetCurrentWeather,
                     request_deserializer=weather__pb2.GetCurrentWeatherRequest.FromString,
                     response_serializer=weather__pb2.GetCurrentWeatherResponse.SerializeToString,
+            ),
+            'GetWeatherHistory': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetWeatherHistory,
+                    request_deserializer=weather__pb2.GetWeatherHistoryRequest.FromString,
+                    response_serializer=weather__pb2.GetWeatherHistoryResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -87,6 +103,33 @@ class WeatherService(object):
             '/weather.v1.WeatherService/GetCurrentWeather',
             weather__pb2.GetCurrentWeatherRequest.SerializeToString,
             weather__pb2.GetCurrentWeatherResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetWeatherHistory(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/weather.v1.WeatherService/GetWeatherHistory',
+            weather__pb2.GetWeatherHistoryRequest.SerializeToString,
+            weather__pb2.GetWeatherHistoryResponse.FromString,
             options,
             channel_credentials,
             insecure,
