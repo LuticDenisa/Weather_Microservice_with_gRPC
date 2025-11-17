@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rweather.proto\x12\nweather.v1\"(\n\x18GetCurrentWeatherRequest\x12\x0c\n\x04\x63ity\x18\x01 \x01(\t\"q\n\x0fWeatherSnapshot\x12\x0c\n\x04\x63ity\x18\x01 \x01(\t\x12\x15\n\rtemperature_c\x18\x02 \x01(\x01\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x10\n\x08humidity\x18\x04 \x01(\x05\x12\x12\n\nwind_speed\x18\x05 \x01(\x01\"J\n\x19GetCurrentWeatherResponse\x12-\n\x08snapshot\x18\x01 \x01(\x0b\x32\x1b.weather.v1.WeatherSnapshot2t\n\x0eWeatherService\x12\x62\n\x11GetCurrentWeather\x12$.weather.v1.GetCurrentWeatherRequest\x1a%.weather.v1.GetCurrentWeatherResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rweather.proto\x12\nweather.v1\"(\n\x18GetCurrentWeatherRequest\x12\x0c\n\x04\x63ity\x18\x01 \x01(\t\"\x87\x01\n\x0fWeatherSnapshot\x12\x0c\n\x04\x63ity\x18\x01 \x01(\t\x12\x15\n\rtemperature_c\x18\x02 \x01(\x01\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x10\n\x08humidity\x18\x04 \x01(\x05\x12\x12\n\nwind_speed\x18\x05 \x01(\x01\x12\x14\n\x0ctimestamp_ms\x18\x06 \x01(\x03\"J\n\x19GetCurrentWeatherResponse\x12-\n\x08snapshot\x18\x01 \x01(\x0b\x32\x1b.weather.v1.WeatherSnapshot\"H\n\x18GetWeatherHistoryRequest\x12\x0c\n\x04\x63ity\x18\x01 \x01(\t\x12\x0f\n\x07\x66rom_ms\x18\x02 \x01(\x03\x12\r\n\x05to_ms\x18\x03 \x01(\x03\"H\n\x19GetWeatherHistoryResponse\x12+\n\x06series\x18\x01 \x03(\x0b\x32\x1b.weather.v1.WeatherSnapshot2\xd8\x01\n\x0eWeatherService\x12\x62\n\x11GetCurrentWeather\x12$.weather.v1.GetCurrentWeatherRequest\x1a%.weather.v1.GetCurrentWeatherResponse\"\x00\x12\x62\n\x11GetWeatherHistory\x12$.weather.v1.GetWeatherHistoryRequest\x1a%.weather.v1.GetWeatherHistoryResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,10 +33,14 @@ if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_GETCURRENTWEATHERREQUEST']._serialized_start=29
   _globals['_GETCURRENTWEATHERREQUEST']._serialized_end=69
-  _globals['_WEATHERSNAPSHOT']._serialized_start=71
-  _globals['_WEATHERSNAPSHOT']._serialized_end=184
-  _globals['_GETCURRENTWEATHERRESPONSE']._serialized_start=186
-  _globals['_GETCURRENTWEATHERRESPONSE']._serialized_end=260
-  _globals['_WEATHERSERVICE']._serialized_start=262
-  _globals['_WEATHERSERVICE']._serialized_end=378
+  _globals['_WEATHERSNAPSHOT']._serialized_start=72
+  _globals['_WEATHERSNAPSHOT']._serialized_end=207
+  _globals['_GETCURRENTWEATHERRESPONSE']._serialized_start=209
+  _globals['_GETCURRENTWEATHERRESPONSE']._serialized_end=283
+  _globals['_GETWEATHERHISTORYREQUEST']._serialized_start=285
+  _globals['_GETWEATHERHISTORYREQUEST']._serialized_end=357
+  _globals['_GETWEATHERHISTORYRESPONSE']._serialized_start=359
+  _globals['_GETWEATHERHISTORYRESPONSE']._serialized_end=431
+  _globals['_WEATHERSERVICE']._serialized_start=434
+  _globals['_WEATHERSERVICE']._serialized_end=650
 # @@protoc_insertion_point(module_scope)

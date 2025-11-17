@@ -15,22 +15,43 @@ GRPC_ADDR = os.getenv("GRPC_ADDR", "localhost:50051")
 def main():
     with grpc.insecure_channel(GRPC_ADDR) as channel:
         stub = weather_pb2_grpc.WeatherServiceStub(channel)
-        city = input("Enter city name: ").strip()
-        try:
-            resp = stub.GetCurrentWeather(
-                weather_pb2.GetCurrentWeatherRequest(city=city),
-                metadata=[("x-api-key", API_KEY)]
-            )
-            s = resp.snapshot
-            print(
-                f"\nWeather in {s.city}:\n"
-                f"Temperature: {s.temperature_c:.1f} celcius\n"
-                f"Humidity: {s.humidity}%\n"
-                f"Conditions: {s.description}\n"
-                f"Wind Speed: {s.wind_speed} m/s\n"
-            )
-        except grpc.RpcError as e:
-            print(f"gRPC Error: {e.code().name} - {e.details()}")
+        mode = input("Choose mode: [1] current  [2] history : ").strip() or "1"
+        if mode == "1":
+            city = input("Enter city name: ").strip()
+            try:
+                resp = stub.GetCurrentWeather(
+                    weather_pb2.GetCurrentWeatherRequest(city=city),
+                    metadata=(("x-api-key", API_KEY),),
+                )
+                s = resp.snapshot
+                print(
+                    f"\nWeather for {s.city}:\n"
+                    f"Temperature: {s.temperature_c:.1f} Celcius\n"
+                    f"Humidity: {s.humidity}%\n"
+                    f"Conditions: {s.description}\n"
+                    f"Wind Speed: {s.wind_speed} m/s\n"
+                    f"Timestamp: {s.timestamp_ms}\n"
+                )
+            except grpc.RpcError as e:
+                print(f"Error: {e.code().name} — {e.details()}")
+        else:
+            city = input("City: ").strip()
+            import time
+            now = int(time.time() * 1000)
+            from_ms = now - 24*60*60*1000
+            to_ms = now
+            try:
+                resp = stub.GetWeatherHistory(
+                    weather_pb2.GetWeatherHistoryRequest(city=city, from_ms=from_ms, to_ms=to_ms),
+                    metadata=(("x-api-key", API_KEY),),
+                )
+                print(f"\n{len(resp.series)} point(s) in last 24h for {city}:")
+                for snap in resp.series:
+                    from datetime import datetime
+                    dt = datetime.fromtimestamp(snap.timestamp_ms/1000.0)
+                    print(f"- {dt}: {snap.temperature_c:.1f} °C ({snap.description})")
+            except grpc.RpcError as e:
+                print(f"Error: {e.code().name} — {e.details()}")
     
 
 if __name__ == "__main__":

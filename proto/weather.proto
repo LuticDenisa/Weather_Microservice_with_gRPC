@@ -4,6 +4,7 @@ package weather.v1;
 service WeatherService {
   // return current weather for a city
   rpc GetCurrentWeather (GetCurrentWeatherRequest) returns (GetCurrentWeatherResponse) {}
+  rpc GetWeatherHistory (GetWeatherHistoryRequest) returns (GetWeatherHistoryResponse) {}
 }
 
 message GetCurrentWeatherRequest {
@@ -16,8 +17,19 @@ message WeatherSnapshot {
   string description = 3;
   int32 humidity = 4;
   double wind_speed = 5;
+  int64 timestamp_ms = 6;
 }
 
 message GetCurrentWeatherResponse {
   WeatherSnapshot snapshot = 1;
+}
+
+message GetWeatherHistoryRequest {
+  string city = 1;
+  int64 from_ms = 2;
+  int64 to_ms = 3;
+}
+
+message GetWeatherHistoryResponse {
+  repeated WeatherSnapshot series = 1;
 }
