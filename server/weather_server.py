@@ -12,7 +12,7 @@ from .owm_client import OpenWeatherMapClient
 from .config import GRPC_PORT
 from .dao import WeatherDAO
 
-import weather_pb2_grpc, weather_pb2
+import weather_pb2_grpc, weather_pb2 # type: ignore
 
 class WeatherService(weather_pb2_grpc.WeatherServiceServicer):
 

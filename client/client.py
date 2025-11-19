@@ -7,7 +7,7 @@ sys.path.append(os.path.join(BASE_DIR, "server"))
 sys.path.append(os.path.join(BASE_DIR, "server", "generated"))
 
 import grpc
-import weather_pb2, weather_pb2_grpc
+import weather_pb2, weather_pb2_grpc # type: ignore
 
 API_KEY = os.getenv("SERVICE_API_KEY", "dev-secret")
 GRPC_ADDR = os.getenv("GRPC_ADDR", "localhost:50051")
