@@ -90,7 +90,22 @@ def current(request: Request, city: str):
             "timestamp_ms": s.timestamp_ms,
         }
     except grpc.RpcError as e:
-        raise HTTPException(status_code=502, detail=f"{e.code().name}: {e.details()}")
+        code = e.code().name
+        detail = e.details()
+        status = 502
+        if code == "NOT_FOUND":
+            status = 404
+        elif code == "INVALID_ARGUMENT":
+            status = 400
+        elif code == "UNAUTHENTICATED":
+            status = 401
+        elif code == "PERMISSION_DENIED":
+            status = 403
+        elif code == "UNAVAILABLE":
+            status = 503
+        elif code == "DEADLINE_EXCEEDED":
+            status = 504
+        raise HTTPException(status_code=status, detail=f"{code}: {detail}")
 
 
 @app.get("/api/weather/history", response_model=list[WeatherHistoryPoint])
@@ -129,4 +144,19 @@ def history(
             for s in resp.series
         ]
     except grpc.RpcError as e:
-        raise HTTPException(status_code=502, detail=f"{e.code().name}: {e.details()}")
+        code = e.code().name
+        detail = e.details()
+        status = 502
+        if code == "NOT_FOUND":
+            status = 404
+        elif code == "INVALID_ARGUMENT":
+            status = 400
+        elif code == "UNAUTHENTICATED":
+            status = 401
+        elif code == "PERMISSION_DENIED":
+            status = 403
+        elif code == "UNAVAILABLE":
+            status = 503
+        elif code == "DEADLINE_EXCEEDED":
+            status = 504
+        raise HTTPException(status_code=status, detail=f"{code}: {detail}")

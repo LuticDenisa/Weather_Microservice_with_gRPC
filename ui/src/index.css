@@ -1,0 +1,126 @@
+:root{
+  --fg:#0f172a;
+  --muted:#64748b;
+  --glass:rgba(255,255,255,0.14);
+  --glass-strong:rgba(255,255,255,0.18);
+  --border:rgba(255,255,255,0.25);
+}
+
+*{ box-sizing:border-box; }
+html, body, #root{ height:100%; }
+body{
+  margin:0;
+  color:var(--fg);
+  font-family: Inter, system-ui, Arial;
+  background-image:url('/src/assets/weather_wallpaper.jpg');
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+}
+
+/* centrare verticala/orizontala pt continut */
+.page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+}
+
+/* ccontainer glass effect */
+.glass{
+  width:min(960px, 100%);
+  background:var(--glass);
+  backdrop-filter:blur(12px) saturate(120%);
+  -webkit-backdrop-filter:blur(12px) saturate(120%);
+  border:1px solid var(--border);
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  padding:24px;
+}
+
+/* header (input + buton) */
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.input {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 15px;
+  outline: none;
+  width: 240px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus {
+  border-color: #0d9488;
+  box-shadow: 0 0 4px rgba(13, 148, 136, 0.5);
+}
+
+.button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #111;
+  background: #111;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+  background: #222;
+  transform: translateY(-1px);
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* alerta error */
+.alert{
+  background:#ffe6e6;
+  border:1px solid #ffb3b3;
+  color:#7f1d1d;
+  padding:12px;
+  border-radius:10px;
+  margin:10px 0 14px;
+  font-weight:500;
+}
+
+/* pannels */
+.panels{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:16px;
+}
+.panel{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px;
+  background:var(--glass-strong);
+  backdrop-filter:blur(10px);
+}
+
+/* chart wrapper */
+.chart{
+  height:380px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:8px;
+  background:var(--glass-strong);
+  backdrop-filter:blur(10px);
+}
+
+/* responsiveness */
+@media (max-width: 760px){
+  .panels{ grid-template-columns:1fr; }
+  .input{ flex:1 1 auto; }
+}
