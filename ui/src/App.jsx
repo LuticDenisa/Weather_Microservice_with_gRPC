@@ -83,7 +83,10 @@ export default function App() {
             onBlur={() => setCity(v => v.trim())}
             placeholder="City"
           />
-          <button className="button" onClick={fetchCurrentAndRefreshHistory} disabled={loadingNow || loadingSeries}>
+          <button 
+            className="button" 
+            onClick={fetchCurrentAndRefreshHistory} 
+            disabled={loadingNow || loadingSeries}>
             {loadingNow || loadingSeries ? "Loading..." : "Fetch current & refresh history"}
           </button>
         </div>
