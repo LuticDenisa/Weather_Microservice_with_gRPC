@@ -3,3 +3,5 @@ grpcio-tools
 requests
 python-dotenv
 pymongo
+fastapi
+uvicorn
