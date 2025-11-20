@@ -21,11 +21,12 @@ export default function App() {
   async function loadHistoryAuto24h(c) {
     try {
       setLoadingSeries(true);
-      setError(null);
+      // setError(null);
       const s = await fetchHistory(c);
       setSeries(s);
     } catch (e) {
-      setError(e?.message || "Failed to load history");
+      setNow(null);
+      setError(e?.message || `Failed to load current weather.`);
     } finally {
       setLoadingSeries(false);
     }
@@ -37,16 +38,31 @@ export default function App() {
       setError(null);
       const data = await fetchCurrent(c);
       setNow(data);
+      return true;
     } catch (e) {
-      setError(e?.message || "Failed to load current");
+      setNow(null);
+      const msg = e?.message || "";
+      if (msg.includes("NOT_FOUND") || msg.includes("404")) {
+        setError(`City "${c}" not found.`);
+      } else {
+        setError(msg || "Failed to load current weather");
+      }
+      return false;
     } finally {
       setLoadingNow(false);
     }
   }
 
    async function fetchCurrentAndRefreshHistory() {
-    await loadCurrent(city);
-    await loadHistoryAuto24h(city);
+    const c = city.trim();
+    if (!c) { setError("Please enter a city name."); return; }
+    
+    const ok = await loadCurrent(c);
+    if (!ok) {
+      setSeries([]);
+      return;
+    }
+    await loadHistoryAuto24h(c);
   }
 
   useEffect(() => {
@@ -65,7 +81,10 @@ export default function App() {
       <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
         <input
           value={city}
-          onChange={(e) => setCity(e.target.value)}
+          onChange={(e) => {
+                            setCity(e.target.value);
+                            setError(null); }}
+          onBlur={() => setCity((v) => v.trim())}
           placeholder="City"
           style={{ padding: 8, borderRadius: 8, border: "1px solid #ccc", flex: "0 0 240px" }}
         />

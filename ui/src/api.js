@@ -1,7 +1,18 @@
+async function parseOrThrow(res) {
+  if (res.ok) return res.json();
+  const text = await res.text();
+  try {
+    const j = JSON.parse(text);
+    throw new Error(j.detail || text || "Request failed");
+  } catch {
+    throw new Error(text || "Request failed");
+  }
+}
+
+
 export async function fetchCurrent(city) {
     const res = await fetch(`/api/weather/current?city=${encodeURIComponent(city)}`);
-    if (!res.ok) throw new Error(await res.text());
-    return res.json();
+    return parseOrThrow(res);
 }
 
 export async function fetchHistory(city, fromMs, toMs) {
@@ -10,6 +21,5 @@ export async function fetchHistory(city, fromMs, toMs) {
     if (fromMs) url.searchParams.set('from_ms', String(fromMs));
     if (toMs) url.searchParams.set('to_ms', String(toMs));
     const res = await fetch(url.toString());
-    if (!res.ok) throw new Error(await res.text());
-    return res.json();
+    return parseOrThrow(res);
 }
