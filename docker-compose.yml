@@ -1,0 +1,49 @@
+services:
+
+  mongo:
+    image: mongo:8
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    depends_on:
+      - mongo
+    environment:
+      - OWM_API_KEY=${OWM_API_KEY}
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - GRPC_PORT=${GRPC_PORT}
+      - MONGO_URI=mongodb://root:secret@mongo:27017/?authSource=admin
+    ports:
+      - "50051:50051"
+
+  gateway:
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
+    depends_on:
+      - server
+    environment:
+      - SERVICE_API_KEY=${SERVICE_API_KEY}
+      - GRPC_ADDR=server:${GRPC_PORT}
+    ports:
+      - "8000:8000"
+
+  ui:
+    build:
+      context: .
+      dockerfile: ui/Dockerfile
+    depends_on:
+      - gateway
+    ports:
+      - "5173:80"
+
+volumes:
+  mongo_data:
