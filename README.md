@@ -39,37 +39,57 @@ MongoDB
 - Secured with an API key (`x-api-key` header)
 - Fully containerized using **Docker Compose**
 
-### Project Structure
+## Project Structure
+
 Weather_Microservice_with_gRPC/
+
 ├── server/                 # gRPC service and business logic
+
 │   ├── dao.py              # MongoDB persistence layer
+
 │   ├── weather_server.py   # gRPC server implementation
+
 │   ├── owm_client.py       # OpenWeatherMap client
+
 │   ├── auth.py             # API key interceptor
+
 │   └── generated/          # Auto-generated protobuf stubs
+
 │
+
 ├── gateway/                # FastAPI REST-to-gRPC gateway
+
 │   └── main.py
+
 │
+
 ├── ui/                     # React + Vite frontend
+
 │   ├── src/
+
 │   └── nginx.conf          # Nginx config (proxy /api to gateway)
+
 │
+
 ├── proto/                  # weather.proto definition
+
 ├── tests/                  # Unit & integration tests
+
 ├── docker-compose.yml      # Multi-service orchestration
+
 ├── .coveragerc             # Coverage configuration
+
 └── README.md
 
-### APIs
+## APIs
 
-## gRPC (WeatherService)
+### gRPC (WeatherService)
 | Method| Request | Response | Description
 |--------|------|---------|---------|
 | GetCurrentWeather | GetCurrentWeatherRequest(city) | GetCurrentWeatherResponse(snapshot) | Fetches current weather for a city. |
 | GetWeatherHistory | GetWeatherHistoryRequest(city, from_ms, to_ms) | GetWeatherHistoryResponse(series) | Returns temperature history for the selected time range. |
 
-## REST (via FastAPI Gateway)
+### REST (via FastAPI Gateway)
 | Endpoint| Method | Params | Description
 |--------|------|---------|---------|
 | /api/weather/current | GET | city | Returns current weather snapshot. |
